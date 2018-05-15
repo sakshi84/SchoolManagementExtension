@@ -22,7 +22,7 @@ route.use('/:id/batches/:id2/lectures/:id3?',(req,res)=>{
             include:[{
                 model:Batch,
                 include:[Course]
-            }]            
+            },Batch,Teacher]            
         })
         .then((lecture)=>{
            // res.json(lecture)

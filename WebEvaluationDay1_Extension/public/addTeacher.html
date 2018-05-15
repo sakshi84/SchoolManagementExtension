@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Teacher</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="background-color:lightblue">
+                <a class="nav-link" href="teachersList.html" >Teacher List</a>
+        </nav>
+        <center>
+        <h4>Teacher Name</h4>
+        <input type="text" v-model='newTeacherName'>
+        <h4>Subject</h4>
+        <select class="selectpicker show-menu-arrow " v-model="newTeacherSubject" title="Select Subject">
+            <option v-bind:value="subject.id" v-for="subject in Subjects">{{subject.name}}</option>
+        </select>
+    </br>
+    </br>
+        <button v-on:click="addTeacher" style="background-color:lightblue">ADD</button>
+    </center>
+    </div>
+
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                Subjects:[],
+                newTeacherName:'',
+                newTeacherSubject:''
+            },
+            mounted(){
+                this.subjectList();
+            },
+            
+
+            methods: {
+                subjectList: function() {
+                axios.get("http://localhost:2678/api/subjects", { responseType: 'json' })
+                    .then(response => { this.Subjects = response.data })
+                   
+                },
+                addTeacher : function () {
+                    //console.log("Method Clicked")
+                    axios.post("http://localhost:2678/api/teachers", {
+                         name: this.newTeacherName, 
+                         SubjectId:this.newTeacherSubject,
+                          })
+                    .then((response)=>{
+                        console.log('Teacher Added Successfully')
+                    }); 
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

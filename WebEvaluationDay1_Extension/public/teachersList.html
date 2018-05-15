@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Teachers List</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div class="container" id="app">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="background-color:lightblue">
+                <a class="nav-link" href="subjectList.html" >Subject List</a>
+                <a class="nav-link" href="studentList.html" >Student List</a>
+                <a class="nav-link" href="courseList.html" >Course List</a>
+                <a class="nav-link" href="addTeacher.html" >Add Teachers</a>
+        </nav>
+        <h2 class="col">Teachers List</h2>
+        <div v-for="teacher in TeachersArray" >
+            <div class="card-deck mt-3">
+                <div class="card text-center">
+                    <div class="card-block">
+                        <h4 class="card-title">
+                            {{teacher.name}}
+                        </h4>
+                        <h4 class="card-title">
+                            {{teacher.Subject.name}}
+                        </h4>
+                    </div>
+                </div> 
+            </div>
+        </div>              
+    </div>
+        <script>
+            let app = new Vue({
+                el: '#app',
+                data: {
+                    TeachersArray:[]   ,
+                    user:'' ,   
+                    seen:false     
+                },
+                mounted(){
+                    this.teachersData();
+                },
+                methods: {
+                    teachersData(){
+                        var self = this;
+                        axios.get("http://localhost:2678/api/teachers")
+                        .then(function (response) {
+                            self.TeachersArray = response.data;
+                            console.log(self.TeachersArray);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                    }
+                }
+        })
+    </script>
+</body>
+</html>

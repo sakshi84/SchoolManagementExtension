@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Student</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="background-color:lightblue">
+                <a class="nav-link" href="studentList.html" >Student List</a>
+        </nav>
+        <center>
+        <h4>Student Name</h4>
+        <input type="text" v-model='newStudentName'>
+    </br>
+    </br>
+        <button v-on:click="addStudent" style="background-color:lightblue">ADD</button>
+    </center>
+    </div>
+
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                newStudentName:'',
+            },
+            
+            methods: {
+                addStudent : function () {
+                    //console.log("Method Clicked")
+                    axios.post("http://localhost:2678/api/students", {
+                         name: this.newStudentName
+                         })
+                    .then((response)=>{
+                        console.log('Student Added Successfully')
+                    }); 
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

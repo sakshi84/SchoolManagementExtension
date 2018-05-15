@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Course</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="background-color:lightblue">
+                <a class="nav-link" href="courseList.html" >Course List</a>
+        </nav>
+        <center>
+        <h4>Course Name</h4>
+        <input type="text" v-model='newCourseName'>
+    </br>
+    </br>
+        <button v-on:click="addCourse" style="background-color:lightblue">ADD</button>
+    </center>
+    </div>
+
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                newCourseName:'',
+            },
+            
+            methods: {
+                addCourse : function () {
+                    //console.log("Method Clicked")
+                    axios.post("http://localhost:2678/api/courses", {
+                         name: this.newCourseName
+                         })
+                    .then((response)=>{
+                        console.log('Course Added Successfully')
+                    }); 
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

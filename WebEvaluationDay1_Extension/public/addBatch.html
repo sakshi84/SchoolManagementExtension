@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Batch</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="background-color:lightblue">
+                <a class="nav-link" href="productList.html" >Product List .</a>
+                <a class="nav-link" href="add_products.html" >Add Product .</a>
+                <a class="nav-link" href="cart.html" >Cart</a>
+        </nav>
+        <center>
+        <h4>Batch Name</h4>
+        <input type="text" v-model='newBatchName'>
+        <h4>Course</h4>
+        <select class="selectpicker show-menu-arrow " v-model="newBatchCourse" title="Select Course">
+            <option v-bind:value="course.id" v-for="course in Courses">{{course.name}}</option>
+        </select>
+    </br>
+    </br>
+        <button v-on:click="addBatch" style="background-color:lightblue">ADD</button>
+    </center>
+    </div>
+
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                Courses:[],
+                newBatchName:'',
+                newBatchCourse:''
+            },
+            mounted(){
+                this.courseList();
+            },
+            
+
+            methods: {
+                courseList: function() {
+                axios.get("http://localhost:2678/api/courses", { responseType: 'json' })
+                    .then(response => { this.Courses = response.data })
+                   // console.log("----"+this.courses);
+                },
+                addBatch : function () {
+                    //console.log("Method Clicked")
+                    axios.post("http://localhost:2678/api/batches", {
+                         name: this.newBatchName, 
+                         CourseId:this.newBatchCourse,
+                          })
+                    .then((response)=>{
+                        console.log('Batch Added Successfully')
+                    }); 
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
